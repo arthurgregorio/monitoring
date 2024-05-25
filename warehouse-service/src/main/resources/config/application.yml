@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: warehouse-service
+
+application:
+  sensors:
+    humidity:
+      east-corner:
+        port: 3355
+    temperature:
+      central:
+        port: 3344
