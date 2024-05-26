@@ -1,0 +1,37 @@
+services:
+  mongo:
+    container_name: central-service-db
+    image: mongo:6
+    ports:
+      - "27018:27017"
+    environment:
+      MONGO_INITDB_DATABASE: central_store
+      MONGO_INITDB_ROOT_USERNAME: sa_central_store
+      MONGO_INITDB_ROOT_PASSWORD: sa_central_store
+    networks:
+      - default
+
+  localstack:
+    image: localstack/localstack:3.4
+    container_name: localstack
+    ports:
+      - "4566:4566"
+      - "4510-4559:4510-4559"
+    environment:
+      - DEBUG=1
+      - SERVICES=sns,sqs
+      - DOCKER_HOST=unix:///var/run/docker.sock
+    volumes:
+      - ./localstack-init.sh:/etc/localstack/init/ready.d/init-aws.sh
+      - localstack-data:/var/lib/localstack
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - default
+
+volumes:
+  localstack-data:
+    driver: local
+
+networks:
+  default:
+    driver: bridge
