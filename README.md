@@ -24,7 +24,7 @@ After, you can use the generated jar file from the `build\libs` folder in each p
 - `java -jar central-service-0.0.1.jar` for central-service
 - `java -jar warehouse-service-0.0.1.jar` for warehouse-service
 
-> WARNING! be sure that the port 3344 and 3355 are available before starting the application
+> WARNING! be sure that ports 3344 and 3355 are available before starting the application
 
 If you did everything correctly, the application is up and ready to receive UDP packets in the endpoints described bellow.
 
