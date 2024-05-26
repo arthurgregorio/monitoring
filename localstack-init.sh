@@ -16,11 +16,13 @@ do
   RETRY_ATTEMPTS=${QUEUE_CONFIG[1]}
 
   aws sqs create-queue \
+      --region us-west-2 \
       --endpoint-url=http://$LOCALSTACK_HOST:4566 \
       --queue-name="${QUEUE_NAME}_dlq"
   echo "DLQ queue [${QUEUE_NAME}_dlq] created"
 
   aws sqs create-queue \
+      --region us-west-2 \
       --endpoint-url=http://$LOCALSTACK_HOST:4566 \
       --queue-name=${QUEUE_NAME} \
       --attributes DelaySeconds=5,RedrivePolicy="\"{\\\"deadLetterTargetArn\\\":\\\"arn:aws:sqs:us-west-2:000000000000:${QUEUE_NAME}_dlq\\\",\\\"maxReceiveCount\\\":\\\"${RETRY_ATTEMPTS}\\\"}\""
