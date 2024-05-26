@@ -19,13 +19,13 @@ class SensorMonitoringService {
         when (data.getType()) {
             TEMPERATURE -> {
                 if (data.value > BigDecimal(TEMPERATURE_THRESHOLD)) {
-                    logger.warn { "Temperature sensor [${data.sensorId}] is above the threshold [${TEMPERATURE_THRESHOLD}]" }
+                    logger.warn { "Temperature sensor [${data.sensorId}] is above the threshold [${TEMPERATURE_THRESHOLD}], current [${data.value}]" }
                 }
             }
 
             HUMIDITY -> {
                 if (data.value > BigDecimal(HUMIDITY_THRESHOLD)) {
-                    logger.warn { "Humidity sensor [${data.sensorId}] is above the threshold [${HUMIDITY_THRESHOLD}]" }
+                    logger.warn { "Humidity sensor [${data.sensorId}] is above the threshold [${HUMIDITY_THRESHOLD}], current [${data.value}]" }
                 }
             }
         }
