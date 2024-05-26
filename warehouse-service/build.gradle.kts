@@ -21,13 +21,17 @@ repositories {
     mavenCentral()
 }
 
+val assertJVersion = "3.25.3"
 val awsSpringVersion = "3.0.1"
+val awaitilityVersion = "4.2.1"
 val commonsLangVersion = "3.12.0"
+val testcontainersVersion = "1.19.7"
 val kotlinLoggingJvmVersion = "6.0.9"
-var integrationTcpUdpSupportVersion = "6.3.0"
+val integrationTcpUdpSupportVersion = "6.3.0"
 
 dependencyManagement {
     imports {
+        mavenBom("org.testcontainers:testcontainers-bom:$testcontainersVersion")
         mavenBom("io.awspring.cloud:spring-cloud-aws-dependencies:$awsSpringVersion")
     }
 }
@@ -57,10 +61,22 @@ dependencies {
     implementation("io.github.oshai:kotlin-logging-jvm:$kotlinLoggingJvmVersion")
 
     // testing
+    testImplementation("org.springframework.boot:spring-boot-starter-test") {
+        exclude("org.mockito", "mockito-core")
+        exclude("org.junit.vintage", "junit-vintage-engine")
+    }
+
+    testImplementation("org.testcontainers:localstack")
+    testImplementation("org.testcontainers:junit-jupiter")
+
+    testImplementation("org.assertj:assertj-core:$assertJVersion")
+
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.integration:spring-integration-test")
+
+    testImplementation("org.awaitility:awaitility:$awaitilityVersion")
+    testImplementation("org.awaitility:awaitility-kotlin:$awaitilityVersion")
 }
 
 tasks.withType<KotlinCompile> {
