@@ -1,4 +1,4 @@
-# monitoring
+# Monitoring Sensors
 
 Sample monitoring app with spring integration and AWS localstack
 
