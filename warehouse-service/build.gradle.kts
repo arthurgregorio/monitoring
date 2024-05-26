@@ -20,6 +20,7 @@ repositories {
 }
 
 var integrationTcpUdpSupportVersion = "6.3.0"
+val kotlinLoggingJvmVersion = "6.0.9"
 
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-integration")
@@ -31,6 +32,8 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+
+	implementation("io.github.oshai:kotlin-logging-jvm:$kotlinLoggingJvmVersion")
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.springframework.integration:spring-integration-test")

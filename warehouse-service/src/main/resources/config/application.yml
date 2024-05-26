@@ -1,12 +1,13 @@
 spring:
+  main:
+    web-application-type: none
+    keep-alive: true
   application:
     name: warehouse-service
 
 application:
   sensors:
     humidity:
-      east-corner:
-        port: 3355
+      port: 3355
     temperature:
-      central:
-        port: 3344
+      port: 3344

@@ -1,27 +1,49 @@
 package br.eti.arthurgregorio.warehouseservice.infrastructure.config
 
-import br.eti.arthurgregorio.warehouseservice.infrastructure.config.properties.SensorProperties
-import org.springframework.boot.context.properties.EnableConfigurationProperties
+import br.eti.arthurgregorio.warehouseservice.application.payloads.SensorData
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.integration.dsl.IntegrationFlow
+import org.springframework.integration.dsl.StandardIntegrationFlow
+import org.springframework.integration.dsl.integrationFlow
 import org.springframework.integration.ip.dsl.Udp
+import java.math.BigDecimal
 
 @Configuration(proxyBeanMethods = false)
-@EnableConfigurationProperties(SensorProperties::class)
 class SensorConfiguration(
-    private val sensorProperties: SensorProperties
+    @Value("\${application.sensors.humidity.port}")
+    private val humiditySensorPort: Int,
+    @Value("\${application.sensors.temperature.port}")
+    private val temperatureSensorPort: Int
+
 ) {
 
     @Bean
-    fun eastCornerSensor(): IntegrationFlow {
+    fun configureTemperatureSensor(): StandardIntegrationFlow =
+        integrationFlow(Udp.inboundAdapter(temperatureSensorPort)) {
+            transform<String> { transformData(it) }
+            channel("sensorDataChannel")
+        }
 
-        val sensorName = "east-corner"
+    @Bean
+    fun configureHumiditySensor(): StandardIntegrationFlow =
+        integrationFlow(Udp.inboundAdapter(humiditySensorPort)) {
+            transform<String> { transformData(it) }
+            channel("sensorDataChannel")
+        }
 
-        val configuration = sensorProperties.getByNameOrThrown(sensorName)
+    private fun transformData(input: String): SensorData {
 
-        return IntegrationFlow.from(Udp.inboundAdapter(configuration.port))
-            .channel(sensorName)
-            .get()
+        val map = input
+            .split(";")
+            .associate {
+                val (key, value) = it.split("=")
+                key.trim() to value.trim()
+            }
+
+        val sensorId = map.getOrDefault("sensor_id", "no_id")
+        val value = map.getOrDefault("value", "0")
+
+        return SensorData(sensorId, BigDecimal(value))
     }
 }
