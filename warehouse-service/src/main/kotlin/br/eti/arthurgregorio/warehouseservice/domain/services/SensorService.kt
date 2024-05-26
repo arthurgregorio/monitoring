@@ -1,15 +1,18 @@
 package br.eti.arthurgregorio.warehouseservice.domain.services
 
-import br.eti.arthurgregorio.warehouseservice.application.payloads.SensorData
+import br.eti.arthurgregorio.warehouseservice.domain.model.SensorData
+import br.eti.arthurgregorio.warehouseservice.infrastructure.producers.CentralDataStoreProducer
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.springframework.stereotype.Service
 
 private val logger = KotlinLogging.logger {}
 
 @Service
-class SensorService {
+class SensorService(
+    private val centralDataStoreProducer: CentralDataStoreProducer
+) {
 
     fun storeData(data: SensorData) {
-        logger.info { "Received data [$data]" }
+        centralDataStoreProducer.send(data)
     }
 }

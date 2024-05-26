@@ -1,12 +1,26 @@
 spring:
-  main:
-    web-application-type: none
-    keep-alive: true
   application:
     name: warehouse-service
 
+  main:
+    web-application-type: none
+    keep-alive: true
+
+  cloud:
+    aws:
+      endpoint: http://localhost:4566
+      credentials:
+        access-key: localstack
+        secret-key: localstack
+      region:
+        static: ${AWS_REGION:us-west-2}
+
+server:
+  port: ${APPLICATION_PORT:8085}
+
 application:
   sensors:
+    central-store-queue-name: "central-service_sensor-data-storage"
     humidity:
       port: 3355
     temperature:

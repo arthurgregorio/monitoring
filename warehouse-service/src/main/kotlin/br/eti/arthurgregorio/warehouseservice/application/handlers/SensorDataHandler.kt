@@ -1,10 +1,13 @@
 package br.eti.arthurgregorio.warehouseservice.application.handlers
 
-import br.eti.arthurgregorio.warehouseservice.application.payloads.SensorData
+import br.eti.arthurgregorio.warehouseservice.domain.model.SensorData
 import br.eti.arthurgregorio.warehouseservice.domain.services.SensorService
+import io.github.oshai.kotlinlogging.KotlinLogging
 import org.springframework.integration.annotation.MessageEndpoint
 import org.springframework.integration.annotation.ServiceActivator
 import org.springframework.messaging.Message
+
+private val logger = KotlinLogging.logger {}
 
 @MessageEndpoint
 class SensorDataHandler(
@@ -13,6 +16,11 @@ class SensorDataHandler(
 
     @ServiceActivator(inputChannel = "sensorDataChannel")
     fun handle(message: Message<SensorData>) {
-        sensorService.storeData(message.payload)
+
+        val payload = message.payload
+
+        logger.debug { "Received data from sensor [${payload.sensorId}] to be stored" }
+
+        sensorService.storeData(payload)
     }
 }

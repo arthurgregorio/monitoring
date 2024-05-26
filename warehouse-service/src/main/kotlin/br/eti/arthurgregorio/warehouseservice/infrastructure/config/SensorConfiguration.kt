@@ -1,6 +1,6 @@
 package br.eti.arthurgregorio.warehouseservice.infrastructure.config
 
-import br.eti.arthurgregorio.warehouseservice.application.payloads.SensorData
+import br.eti.arthurgregorio.warehouseservice.domain.model.SensorData
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
