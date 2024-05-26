@@ -51,7 +51,7 @@ dependencies {
     implementation("org.apache.commons:commons-lang3:$commonsLangVersion")
 
     // dev tools
-    developmentOnly("org.springframework.boot:spring-boot-devtools")
+//    developmentOnly("org.springframework.boot:spring-boot-devtools")
 
     // logging
     implementation("io.github.oshai:kotlin-logging-jvm:$kotlinLoggingJvmVersion")

@@ -7,7 +7,6 @@ import io.github.oshai.kotlinlogging.KotlinLogging
 import org.springframework.messaging.MessageHeaders
 import org.springframework.messaging.handler.annotation.Headers
 import org.springframework.stereotype.Component
-import java.math.BigDecimal
 
 private val logger = KotlinLogging.logger {}
 
@@ -19,6 +18,6 @@ class SensorDataStorageConsumer(
     @SqsListener("\${application.sensors.central-store-queue-name}")
     fun onMessage(message: SensorData, @Headers headers: MessageHeaders) {
         logger.debug { "Trying to consume message [${headers.id}]" }
-        sensorMonitoringService.storeAndMonitor(SensorData("1", BigDecimal.TEN))
+        sensorMonitoringService.storeAndMonitor(message)
     }
 }
